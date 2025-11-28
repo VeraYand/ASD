@@ -5,12 +5,12 @@
 
 #define EPSILON 0.000001
 
-TEST(TestEasyExampleLib, can_make_base_circle) {
+TEST(TestCircle, can_make_base_circle) {
 
     ASSERT_NO_THROW(Circle());
 }
 
-TEST(TestEasyExampleLib, correctly_get_centre_circle) {
+TEST(TestCircle, correctly_get_centre_circle) {
     Circle circle(Point(99, 78), 12);
 
 
@@ -20,7 +20,7 @@ TEST(TestEasyExampleLib, correctly_get_centre_circle) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, correctly_get_rad_circle) {
+TEST(TestCircle, correctly_get_rad_circle) {
     Circle circle(Point(99, 78), 12);
 
 
@@ -31,7 +31,7 @@ TEST(TestEasyExampleLib, correctly_get_rad_circle) {
 }
 
 
-TEST(TestEasyExampleLib, check_base_constr_circle) {
+TEST(TestCircle, check_base_constr_circle) {
     Circle circle;
 
     bool actual_result = (circle.get_centre() == Point(0, 0)) && (circle.get_radius() == 1);
@@ -40,12 +40,12 @@ TEST(TestEasyExampleLib, check_base_constr_circle) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, can_make_circle) {
+TEST(TestCircle, can_make_circle) {
 
     ASSERT_NO_THROW(Circle(Point(3, 9), 7));
 }
 
-TEST(TestEasyExampleLib, check_constr_circle) {
+TEST(TestCircle, check_constr_circle) {
     Circle circle(Point(99, 78), 12);
 
     bool actual_result = (circle.get_centre() == Point(99, 78)) && (circle.get_radius() == 12);
@@ -54,12 +54,12 @@ TEST(TestEasyExampleLib, check_constr_circle) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, can_make_copy_circle) {
+TEST(TestCircle, can_make_copy_circle) {
     Circle circle(Point(99, 78), 12);
     ASSERT_NO_THROW(Circle(circle));
 }
 
-TEST(TestEasyExampleLib, check_copy_constr_circle) {
+TEST(TestCircle, check_copy_constr_circle) {
     Circle circle(Point(99, 78), 12);
     Circle new_circle(circle);
 
@@ -69,7 +69,7 @@ TEST(TestEasyExampleLib, check_copy_constr_circle) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, check_equal_circle) {
+TEST(TestCircle, check_equal_circle) {
     Circle circle(Point(99, 78), 12);
     Circle new_circle(Point(99, 78), 12);
 
@@ -79,7 +79,7 @@ TEST(TestEasyExampleLib, check_equal_circle) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, check_equal1_circle) {
+TEST(TestCircle, check_equal1_circle) {
     Circle circle(Point(99, 78), 12);
     Circle new_circle(Point(54, 22), 92);
 
@@ -90,7 +90,7 @@ TEST(TestEasyExampleLib, check_equal1_circle) {
 }
 
 
-TEST(TestEasyExampleLib, throw_when_radius_not_positive_circle) {
+TEST(TestCircle, throw_when_radius_not_positive_circle) {
 
   // Act & Assert
   ASSERT_ANY_THROW(Circle(Point(99, 78), -12));

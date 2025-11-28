@@ -5,12 +5,12 @@
 
 #define EPSILON 0.000001
 
-TEST(TestEasyExampleLib, can_make_base_point) {
+TEST(TestPoint, can_make_base_point) {
 
   ASSERT_NO_THROW(Point());
 }
 
-TEST(TestEasyExampleLib, correctly_get_x_point) {
+TEST(TestPoint, correctly_get_x_point) {
     Point point(99, 78);
 
 
@@ -20,7 +20,7 @@ TEST(TestEasyExampleLib, correctly_get_x_point) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, correctly_get_y_point) {
+TEST(TestPoint, correctly_get_y_point) {
     Point point(99, 78);
 
 
@@ -31,7 +31,7 @@ TEST(TestEasyExampleLib, correctly_get_y_point) {
 }
 
 
-TEST(TestEasyExampleLib, check_base_constr_point) {
+TEST(TestPoint, check_base_constr_point) {
     Point point;
 
     bool actual_result = (point.get_x() == 0) && (point.get_y() == 0);
@@ -40,12 +40,12 @@ TEST(TestEasyExampleLib, check_base_constr_point) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, can_make_point) {
+TEST(TestPoint, can_make_point) {
 
     ASSERT_NO_THROW(Point(3, 9));
 }
 
-TEST(TestEasyExampleLib, check_constr_point) {
+TEST(TestPoint, check_constr_point) {
     Point point(99, 78);
 
     bool actual_result = (point.get_x() == 99) && (point.get_y() == 78);
@@ -54,12 +54,12 @@ TEST(TestEasyExampleLib, check_constr_point) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, can_make_copy_point) {
+TEST(TestPoint, can_make_copy_point) {
     Point point(9, 8);
     ASSERT_NO_THROW(Point(point));
 }
 
-TEST(TestEasyExampleLib, check_copy_constr_point) {
+TEST(TestPoint, check_copy_constr_point) {
     Point point(99, 78);
     Point new_point(point);
 
@@ -69,7 +69,7 @@ TEST(TestEasyExampleLib, check_copy_constr_point) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, check_equal_point) {
+TEST(TestPoint, check_equal_point) {
     Point point(99, 78);
     Point new_point(99, 78);
 
@@ -79,7 +79,7 @@ TEST(TestEasyExampleLib, check_equal_point) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, check_equal1_point) {
+TEST(TestPoint, check_equal1_point) {
     Point point(99, 78);
     Point new_point(49, 718);
 

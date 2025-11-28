@@ -5,12 +5,12 @@
 
 #define EPSILON 0.000001
 
-TEST(TestEasyExampleLib, can_make_base_sphere) {
+TEST(TestSphere, can_make_base_sphere) {
 
     ASSERT_NO_THROW(Sphere());
 }
 
-TEST(TestEasyExampleLib, correctly_get_centre_sphere) {
+TEST(TestSphere, correctly_get_centre_sphere) {
     Sphere sphere(Point3D(99, 78, 54), 12);
 
 
@@ -20,7 +20,7 @@ TEST(TestEasyExampleLib, correctly_get_centre_sphere) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, correctly_get_rad_sphere) {
+TEST(TestSphere, correctly_get_rad_sphere) {
     Sphere sphere(Point3D(99, 78, 54), 12);
 
 
@@ -31,7 +31,7 @@ TEST(TestEasyExampleLib, correctly_get_rad_sphere) {
 }
 
 
-TEST(TestEasyExampleLib, check_base_constr_sphere) {
+TEST(TestSphere, check_base_constr_sphere) {
     Sphere sphere;
 
     bool actual_result = (sphere.get_centre() == Point3D(0, 0, 0)) && (sphere.get_radius() == 1);
@@ -40,12 +40,12 @@ TEST(TestEasyExampleLib, check_base_constr_sphere) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, can_make_sphere) {
+TEST(TestSphere, can_make_sphere) {
 
     ASSERT_NO_THROW(Sphere(Point3D(3, 9, 8), 7));
 }
 
-TEST(TestEasyExampleLib, check_constr_sphere) {
+TEST(TestSphere, check_constr_sphere) {
     Sphere sphere(Point3D(99, 78, 54), 12);
 
     bool actual_result = (sphere.get_centre() == Point3D(99, 78, 54)) && (sphere.get_radius() == 12);
@@ -54,12 +54,12 @@ TEST(TestEasyExampleLib, check_constr_sphere) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, can_make_copy_sphere) {
+TEST(TestSphere, can_make_copy_sphere) {
     Sphere sphere(Point3D(99, 78, 54), 12);
     ASSERT_NO_THROW(Sphere(sphere));
 }
 
-TEST(TestEasyExampleLib, check_copy_constr_sphere) {
+TEST(TestSphere, check_copy_constr_sphere) {
     Sphere sphere(Point3D(99, 78, 54), 12);
     Sphere new_sphere(sphere);
 
@@ -69,7 +69,7 @@ TEST(TestEasyExampleLib, check_copy_constr_sphere) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, check_equal_sphere) {
+TEST(TestSphere, check_equal_sphere) {
     Sphere sphere(Point3D(99, 78, 54), 12);
     Sphere new_sphere(Point3D(99, 78, 54), 12);;
 
@@ -79,7 +79,7 @@ TEST(TestEasyExampleLib, check_equal_sphere) {
     EXPECT_EQ(expected_result, actual_result);
 }
 
-TEST(TestEasyExampleLib, check_equal1_sphere) {
+TEST(TestSphere, check_equal1_sphere) {
     Sphere sphere(Point3D(99, 78, 54), 12);
     Sphere new_sphere(Point3D(809, 28, 54), 23);
 
@@ -90,7 +90,7 @@ TEST(TestEasyExampleLib, check_equal1_sphere) {
 }
 
 
-TEST(TestEasyExampleLib, throw_when_radius_not_positiv_sphere) {
+TEST(TestSphere, throw_when_radius_not_positiv_sphere) {
 
     // Act & Assert
     ASSERT_ANY_THROW(Sphere(Point3D(99, 78, 54), -12));
