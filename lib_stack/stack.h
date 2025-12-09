@@ -8,7 +8,7 @@ class Stack {
 	T _top;
 public:
 	Stack();
-	Stack(const T size);
+	Stack(const size_t size);
 	Stack(const Stack& other);
 	void push(T val);
 	void pop();
@@ -23,10 +23,17 @@ template<class T>
 Stack<T>::Stack(): _data(nullptr), _size(0), _top(-1) {}
 
 template<class T>
-Stack<T>::Stack(const T size): _data(new T[size]), _size(size), _top(-1){}
+Stack<T>::Stack(const size_t size): _data(new T[size]), _size(size), _top(-1){}
 
 template<class T>
-Stack<T>::Stack(const Stack& other): _data(other._data), _size(other._size), _top(other._top) {}
+Stack<T>::Stack(const Stack& other) : _data(nullptr), _size(other._size), _top(other._top) {
+	if (other._data) {
+		_data = new T[other._size];;
+		for (size_t i = 0; i <= _top; ++i) {
+			_data[i] = other._data[i];
+		}
+	}
+}
 
 template<class T>
 void Stack<T>::push(T val){
@@ -42,6 +49,7 @@ void Stack<T>::pop() {
 
 template<class T>
 T Stack<T>::top() const{
+	if (is_empty()) throw std::logic_error("Error! Stack is empty!");
 	return _data[_top];
 }
 
