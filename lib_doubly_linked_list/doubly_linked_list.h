@@ -5,19 +5,20 @@ template <class T>
 struct Node {
     T value;
     Node <T>* next;
+    Node <T>* prev;
 
-    Node(T value_, Node <T>* next_ = nullptr): value(value_), next(next_){}
-    Node(const Node <T>& other) : value(other->value), next(nullptr) {}
+    Node(T value_, Node <T>* next_ = nullptr, Node <T>* prev_ = nullptr): value(value_), next(next_), prev(prev_) {}
+    Node(const Node <T>& other) : value(other->value), next(nullptr), prev(nullptr) {}
 };
 
 template <class T>
-class List {
+class DoublyLinkedList {
     Node<T>* _head, * _tail;
     size_t _count;
 public:
-    List();
-    List(const List<T>&);
-    ~List();
+    DoublyLinkedList();
+    DoublyLinkedList(const DoublyLinkedList<T>&);
+    ~DoublyLinkedList();
 
     bool is_empty();
     Node <T>* head();
@@ -33,15 +34,13 @@ public:
     void erase(Node <T>* node);
     void erase(size_t pos);
 
-    //friend std::ostream& operator<<(std::ostream& os, const List<T>& list); //++
-
 };
 
 template <class T>
-List<T>::List() : _head(nullptr), _tail(nullptr), _count(0) {}
+DoublyLinkedList<T>::DoublyLinkedList() : _head(nullptr), _tail(nullptr), _count(0) {}
 
 template <class T>
-List<T>::List(const List<T>& other) : _head(nullptr), _tail(nullptr), _count(0) {
+DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& other) : _head(nullptr), _tail(nullptr), _count(0) {
     Node<T>* current = other._head;
     while (current != nullptr) {
         push_back(current->value);
@@ -50,72 +49,80 @@ List<T>::List(const List<T>& other) : _head(nullptr), _tail(nullptr), _count(0) 
 }
 
 template <class T>
-List<T>::~List() {
+DoublyLinkedList<T>::~DoublyLinkedList() {
     while (!is_empty()) {
         pop_front();
     }
 }
 
 template <class T>
-Node<T>* List<T>::head() { return _head; }
+Node<T>* DoublyLinkedList<T>::head() { return _head; }
 
 template <class T>
-Node<T>* List<T>::tail() { return _tail; }
+Node<T>* DoublyLinkedList<T>::tail() { return _tail; }
 
 template <class T>
-bool List<T>::is_empty() {
+bool DoublyLinkedList<T>::is_empty() {
     return _head == nullptr;
 }
 
 template <class T>
-void List<T>::push_front(const T& val) noexcept {
+void DoublyLinkedList<T>::push_front(const T& val) noexcept {
     Node <T>* node = new Node<T>(val);
-    if (is_empty()) {
-        _count += 1;
-        _head = node;
-        _tail = node;
-        return;
+    if (!(is_empty())) {
+        _head->prev = node;
+        node->next = _head;
     }
-    node->next = _head;
+    else {
+        _tail = node;
+    }
+
     _head = node;
-    _count ++;
+    _count++;
 };
 
 template <class T>
-void List<T>::push_back(const T& val) noexcept {
+void DoublyLinkedList<T>::push_back(const T& val) noexcept {
     Node <T>* node = new Node<T>(val);
-    if (is_empty()) {
-        _count += 1;
-        _head = node;
-        _tail = node;
-        return;
+    if (!(is_empty())) {
+        _tail->next = node;
+        node->prev = _tail;
     }
-    _tail->next = node;
+    else {
+        _head = node;
+    }
     _tail = node;
     _count ++;
 };
 
 template <class T>
-void List<T>::insert(Node <T>* node, const T& val) {
-    if (is_empty() || node == nullptr) {
+void DoublyLinkedList<T>::insert(Node <T>* node, const T& val) {
+    if (is_empty() || node == nullptr ) {
         throw std::logic_error("Error! List or node is empty.");
     }
+
+    if (node == _tail) {
+        push_back(val);
+        return;
+    }
+
     Node <T>* new_node = new Node<T>(val);
+    node->next->prev = new_node;
     new_node->next = node->next;
+    new_node->prev = node;
     node->next = new_node;
 
-    if (node == _tail) {   
-        _tail = new_node;
-    }
     _count ++;
 };
 template <class T>
-void List<T>::insert(size_t pos, const T& val) {
+void DoublyLinkedList<T>::insert(size_t pos, const T& val) {
     if (pos == 0) {
         push_front(val);
+        return;
     }
     if (pos == _count - 1) {
         push_back(val);
+        return;
     }
     Node <T>* cur = _head;
     size_t cur_pos = 0;
@@ -129,12 +136,13 @@ void List<T>::insert(size_t pos, const T& val) {
     if (cur == nullptr) {
         throw std::logic_error("Error! Position out of range.");
     }
+    
     insert(cur, val);
 };
 
 
 template <class T>
-void List<T>::pop_back() {
+void DoublyLinkedList<T>::pop_back() {
     if (is_empty()) {
         throw std::logic_error("Error! List is empty.");
     }
@@ -145,51 +153,54 @@ void List<T>::pop_back() {
         _count--;
         return;
     }
-    Node <T>* cur = _head;
-    while (cur->next != tail()) {
-        cur = cur->next;
-    }
-    delete _tail;
-    _tail = cur;
-    cur->next = nullptr;
+    Node<T>* to_delete = _tail;
+    _tail = _tail->prev;
+    _tail->next = nullptr;
+    delete to_delete;
     _count--;
 };
 
 template <class T>
-void List<T>::pop_front() {
+void DoublyLinkedList<T>::pop_front() {
     if (is_empty()) {
         throw std::logic_error("Error! List is empty.");
     }
 
     Node<T>* node = _head;
     _head = _head->next;
-    delete node;
-
-    if (_head == nullptr) {
+    if (_head != nullptr) {
+        _head->prev = nullptr;
+    }
+    else {
         _tail = nullptr;
     }
+
+    delete node;
     _count--;
 }
 
 template <class T>
-void List<T>::erase(Node<T>* node) {
+void DoublyLinkedList<T>::erase(Node<T>* node) {
     if (node == nullptr || node->next == nullptr) {
         throw std::invalid_argument("Invalid node.");
     }
 
     Node<T>* to_delete = node->next;
-    node->next = to_delete->next;
-
     if (to_delete == _tail) {
         _tail = node;
+        _count--;
+        _tail->next = nullptr;
+        return;
     }
+    to_delete->next->prev = node;
+    node->next = to_delete->next;
 
-    delete to_delete;
+
     _count--;
 }
 
 template <class T>
-void List<T>::erase(size_t pos) {
+void DoublyLinkedList<T>::erase(size_t pos) {
     if (pos >= _count) {
         throw std::out_of_range("Error! Position out of range.");
     }
@@ -212,17 +223,4 @@ void List<T>::erase(size_t pos) {
     erase(cur);
 }
 
-//template <class T>
-//std::ostream& operator<<(std::ostream& os, const List<T>& list) {
-//  Node<T>* cur = list.head();
-//  os << "[";
-//  while (cur != nullptr) {
-//    os << cur->value;
-//    if (cur->next != nullptr) {
-//      os << " ";
-//    }
-//    cur = cur->next;
-//  }
-//  os << "]";
-//  return os;
-//}
+

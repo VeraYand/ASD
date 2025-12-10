@@ -1,4 +1,5 @@
 #pragma once
+#include <stdexcept>
 
 //перенести в ветку algorithms в проект Algorithms
 template<class T>

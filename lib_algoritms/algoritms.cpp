@@ -1,7 +1,7 @@
 #include "algoritms.h"
 
 #define ISLOOPED
-#define BRECKETS
+//#define BRECKETS
 
 #ifdef BRECKETS
 #include<string>
