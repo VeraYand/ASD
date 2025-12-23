@@ -1,7 +1,10 @@
 #include "algoritms.h"
 
-#define ISLOOPED
+//#define ISLOOPED
+//#define ISLOOPEDPOS
 //#define BRECKETS
+//#define HAREANDTURTLE
+#define ISLOOPEDPOS
 
 #ifdef BRECKETS
 #include<string>
@@ -74,6 +77,61 @@ bool is_looped(List<T>(*list)) {
 }
 #endif // ISLOOPED
 
+#ifdef HAREANDTURTLE
+#include "../lib_list/list.h"
+
+template<class T>
+bool is_looped_two(List<T>(*list)) {
+	Node<T>* first = (*list).head();
+
+	Node<T>* hare = first;
+	Node<T>* turtle = first;
+
+	while (hare != nullptr && hare->next != nullptr) {
+		hare = hare->next->next;  
+		turtle = turtle->next;   
+
+		if (hare == turtle) {
+			return true;
+		}
+	}
+	return false;
+}
+
+#endif 
+
+#ifdef ISLOOPEDPOS
+#include "../lib_list/list.h"
+
+template<class T>
+int is_looped_pos(List<T>(*list)) {
+	bool isLooped = false;
+	Node<T>* first = (*list).head();
+
+	Node<T>* hare = first;
+	Node<T>* turtle = first;
+
+	while (hare != nullptr && hare->next != nullptr) {
+		hare = hare->next->next;
+		turtle = turtle->next;
+
+		if (hare == turtle) {
+			isLooped = true;
+			break;
+		}
+	}
+	turtle = first;
+	if (isLooped == true) {
+		while (hare != nullptr && hare->next != nullptr) {
+			hare = hare->next;
+			turtle = turtle->next;
+			if (hare == turtle) {
+				return turtle->value;
+			}
+		}
+	}
+	return NULL;
+}
 
 
-
+#endif // ISLOOPEDPOS
