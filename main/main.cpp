@@ -1,4 +1,15 @@
 // Copyright 2024 Marina Usova
+#include "../lib_algoritms/algoritms.cpp"
+
+int X = 0, Y = 25, N = 5, M = 5;
+Matrix<int> labirint;
+
+int main() {
+    get_data(X, Y, N, M);
+    labirint = generate(X, Y, N, M); 
+    print(labirint, N, M);
+    return 0;
+}
 
 ////#define EASY_EXAMPLE
 //#define ALGORITHMS
@@ -277,3 +288,4 @@
 //#endif
 //
 //
+

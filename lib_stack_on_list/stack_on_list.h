@@ -32,19 +32,19 @@ Stack<T>::Stack(const Stack& other) : _data(other._data), _size(other._size) {}
 template<class T>
 void Stack<T>::push(T val) {
     if (is_full()) throw std::logic_error("Error! Stack is full!");
-    _data.push_back(val);
+    _data.push_front(val);
 }
 
 template<class T>
 void Stack<T>::pop() {
     if (is_empty()) throw std::logic_error("Error! Stack is empty!");
-    _data.pop_back();
+    _data.pop_front();
 }
 
 template<class T>
 T Stack<T>::top() const {
     if (is_empty()) throw std::logic_error("Error! Stack is empty!");
-    return _data.tail()->value;
+    return _data.head()->value;
 }
 
 template<class T>

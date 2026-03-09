@@ -9,6 +9,11 @@ public:
     MathVector(size_t capacity) : TVector<T>(capacity) {}
     MathVector(size_t size, const T* arr) : TVector<T>(size, arr) {}
     MathVector(const MathVector<T>& other) : TVector<T>(other) {}
+    MathVector(size_t size, const T& value) : TVector<T>() { 
+        for (size_t i = 0; i < size; ++i) {
+            this->push_back(value);
+        }
+    }
 
     MathVector<T> operator + (const MathVector<T>& other);
     MathVector<T> operator - (const MathVector<T>& other);
@@ -24,7 +29,7 @@ MathVector<T> MathVector<T>::operator + (const MathVector<T>& other) {
         throw std::logic_error("Vectors must have same size for addition");
     }
 
-    MathVector<T> result;
+    MathVector<T> result;//через присваивание
     for (size_t i = 0; i < this->size(); i++) {
         result.push_back((*this)[i] + other[i]);
     }
