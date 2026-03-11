@@ -37,8 +37,65 @@ public:
     size_t count() const;
 
     //friend std::ostream& operator<<(std::ostream& os, const List<T>& list); //++
+    class Iterator {
+    private:
+        Node<T>* current;
+
+    public:
+        using iterator_category = std::forward_iterator_tag; 
+        using difference_type = std::ptrdiff_t;
+        using value_type = T;
+        using pointer = T*;
+        using reference = T&;
+
+        Iterator(Node<T>* ptr) : current(ptr) {}
+
+        reference operator*() const {
+            if (!current) throw std::logic_error("Dereferencing null iterator");
+            return current->val;
+        }
+
+        pointer operator->() {
+            if (!current) throw std::logic_error("Dereferencing null iterator");
+            return &(current->val);
+        }
+
+        Iterator& operator++() {
+            if (current) {
+                current = current->next;
+            }
+            return *this;
+        }
+
+        Iterator operator++(int) {
+            Iterator tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+
+        friend bool operator==(const Iterator& a, const Iterator& b) {
+            return a.current == b.current;
+        }
+
+        friend bool operator!=(const Iterator& a, const Iterator& b) {
+            return a.current != b.current;
+        }
+    };
+
+    Iterator begin();
+    Iterator end();
 
 };
+
+template <class T>
+typename List<T>::Iterator List<T>::begin() {
+    return Iterator(_head);
+}
+
+template <class T>
+typename List<T>::Iterator List<T>::end() {
+    return Iterator(nullptr);
+}
 
 template <class T>
 List<T>::List() : _head(nullptr), _tail(nullptr), _count(0) {}
