@@ -2,6 +2,11 @@
 
 //перенести в ветку algorithms в проект Algorithms
 
+#include <cstddef>  
+#include <iterator>
+#include <stdexcept> 
+#include <iostream>
+
 template <class T>
 struct Node {
     T value;
@@ -40,24 +45,23 @@ public:
     class Iterator {
     private:
         Node<T>* current;
-
     public:
-        using iterator_category = std::forward_iterator_tag; 
+        using iterator_category = std::forward_iterator_tag;
         using difference_type = std::ptrdiff_t;
         using value_type = T;
         using pointer = T*;
         using reference = T&;
 
-        Iterator(Node<T>* ptr) : current(ptr) {}
+        Iterator(Node<T>* ptr = nullptr) : current(ptr) {}
 
         reference operator*() const {
             if (!current) throw std::logic_error("Dereferencing null iterator");
-            return current->val;
+            return current->value;
         }
 
         pointer operator->() {
             if (!current) throw std::logic_error("Dereferencing null iterator");
-            return &(current->val);
+            return &(current->value);
         }
 
         Iterator& operator++() {
@@ -82,20 +86,59 @@ public:
         }
     };
 
-    Iterator begin();
-    Iterator end();
+    class ConstIterator {
+    private:
+        const Node<T>* current;
+    public:
+        using iterator_category = std::forward_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+        using value_type = T;
+        using pointer = const T*;
+        using reference = const T&;
 
+        ConstIterator(const Node<T>* ptr = nullptr) : current(ptr) {}
+
+        reference operator*() const {
+            if (!current) throw std::logic_error("Dereferencing null iterator");
+            return current->value;
+        }
+
+        pointer operator->() const {
+            if (!current) throw std::logic_error("Dereferencing null iterator");
+            return &(current->value);
+        }
+
+        ConstIterator& operator++() {
+            if (current) {
+                current = current->next;
+            }
+            return *this;
+        }
+
+        ConstIterator operator++(int) {
+            ConstIterator tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+
+        friend bool operator==(const ConstIterator& a, const ConstIterator& b) {
+            return a.current == b.current;
+        }
+
+        friend bool operator!=(const ConstIterator& a, const ConstIterator& b) {
+            return a.current != b.current;
+        }
+    };
+
+    Iterator begin() { return Iterator(_head); }
+    Iterator end() { return Iterator(nullptr); }
+
+    ConstIterator begin() const { return ConstIterator(_head); }
+    ConstIterator end() const { return ConstIterator(nullptr); }
+    ConstIterator cbegin() const { return ConstIterator(_head); }
+    ConstIterator cend() const { return ConstIterator(nullptr); }
 };
 
-template <class T>
-typename List<T>::Iterator List<T>::begin() {
-    return Iterator(_head);
-}
-
-template <class T>
-typename List<T>::Iterator List<T>::end() {
-    return Iterator(nullptr);
-}
 
 template <class T>
 List<T>::List() : _head(nullptr), _tail(nullptr), _count(0) {}
@@ -192,7 +235,7 @@ void List<T>::insert(size_t pos, const T& val) {
         push_front(val);
         return;
     }
-    if (pos == _count - 1) {
+    if (pos == _count) {
         push_back(val);
         return;
     }

@@ -49,7 +49,7 @@ TEST(TestList, insert_pos) {
 	EXPECT_FALSE(list.is_empty());
 	EXPECT_EQ((list.head())->value, 11);
 	EXPECT_EQ((list.head()->next)->value, 44);
-	EXPECT_EQ((list.tail())->value, 33);
+	EXPECT_EQ((list.tail())->value, 22);
 }
 
 TEST(TestList, insert_node) {
