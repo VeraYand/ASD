@@ -86,57 +86,14 @@ public:
         }
     };
 
-    class ConstIterator {
-    private:
-        const Node<T>* current;
-    public:
-        using iterator_category = std::forward_iterator_tag;
-        using difference_type = std::ptrdiff_t;
-        using value_type = T;
-        using pointer = const T*;
-        using reference = const T&;
-
-        ConstIterator(const Node<T>* ptr = nullptr) : current(ptr) {}
-
-        reference operator*() const {
-            if (!current) throw std::logic_error("Dereferencing null iterator");
-            return current->value;
-        }
-
-        pointer operator->() const {
-            if (!current) throw std::logic_error("Dereferencing null iterator");
-            return &(current->value);
-        }
-
-        ConstIterator& operator++() {
-            if (current) {
-                current = current->next;
-            }
-            return *this;
-        }
-
-        ConstIterator operator++(int) {
-            ConstIterator tmp = *this;
-            ++(*this);
-            return tmp;
-        }
-
-        friend bool operator==(const ConstIterator& a, const ConstIterator& b) {
-            return a.current == b.current;
-        }
-
-        friend bool operator!=(const ConstIterator& a, const ConstIterator& b) {
-            return a.current != b.current;
-        }
-    };
-
+    
     Iterator begin() { return Iterator(_head); }
     Iterator end() { return Iterator(nullptr); }
 
-    ConstIterator begin() const { return ConstIterator(_head); }
-    ConstIterator end() const { return ConstIterator(nullptr); }
-    ConstIterator cbegin() const { return ConstIterator(_head); }
-    ConstIterator cend() const { return ConstIterator(nullptr); }
+    Iterator begin() const { return Iterator(_head); }
+    Iterator end() const { return Iterator(nullptr); }
+
+    
 };
 
 
