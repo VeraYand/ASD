@@ -14,6 +14,8 @@ public:
     ~Polynom() = default;
 
     Polynom& operator=(const Polynom& other);
+    bool operator==(const Polynom& other);
+    bool operator!=(const Polynom& other);
 
     Polynom& operator+=(const Polynom& other);
     Polynom& operator*=(const Monom& m);
@@ -28,7 +30,6 @@ public:
     friend Polynom operator+(const Monom& m, const Polynom& p);
     friend Polynom operator*(const Monom& m, const Polynom& p);
     friend Polynom operator-(const Monom& m, const Polynom& p);
-    friend Polynom operator/(const Monom& m, const Polynom& p);
 
     friend std::ostream& operator<<(std::ostream& os, const Polynom& p);
     friend std::istream& operator>>(std::istream& is, Polynom& p);
@@ -41,6 +42,6 @@ public:
 
     double calculate(const double* values) const; 
     bool is_zero() const; 
-    size_t size() const { return _items.count(); }  
+    size_t size() const;
 };
 

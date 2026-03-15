@@ -30,6 +30,8 @@ public:
     Monom& operator+=(double val);
     Monom& operator-=(double val);
 
+    double calculate(const double values[VARS_COUNT]);
+
     static Monom parse(const std::string& str);
     static std::string read_num(const std::string& str, int& pos);  
     std::string to_string() const;

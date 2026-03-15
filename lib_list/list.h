@@ -162,7 +162,7 @@ template <class T>
 void List<T>::push_back(const T& val) noexcept {
     Node <T>* node = new Node<T>(val);
     if (is_empty()) {
-        _count += 1;
+        _count ++;
         _head = node;
         _tail = node;
         return;

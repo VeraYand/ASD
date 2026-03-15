@@ -100,6 +100,14 @@ Monom& Monom::operator-=(double val) {
     return *this;
 }
 
+double Monom::calculate(const double values[VARS_COUNT]){
+    double res = _coeff;
+    for (int i = 0; i < VARS_COUNT; i++) {
+        res *= pow(values[i], _powers[i]);
+    }
+    return res;
+}
+
 std::string Monom::read_num(const std::string& str, int& pos) {
     std::string num;
     while (pos < str.size() && (std::isdigit(str[pos]) || str[pos] == '.')) {

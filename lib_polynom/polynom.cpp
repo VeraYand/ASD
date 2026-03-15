@@ -173,10 +173,6 @@ Polynom operator-(const Monom& m, const Polynom& p) {
     return Polynom(m) - p;
 }
 
-Polynom operator/(const Monom& m, const Polynom& p) {
-    throw std::logic_error("Division by polynomial not implemented");
-}
-
 std::ostream& operator<<(std::ostream& os, const Polynom& p) {
     os << p.to_string();
     return os;
@@ -417,3 +413,5 @@ std::string Polynom::to_string() const {
 
     return ss.str();
 }
+
+size_t Polynom::size() const { return _items.count(); }
