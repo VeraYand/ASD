@@ -13,7 +13,7 @@ struct PriorityNode {
         data(data_), priority(priority_), ordinal_num(ordinal_num_) {}
     bool operator<(const PriorityNode<T>& other) const {
         if (priority != other.priority) {
-            return priority > other.priority;
+            return priority < other.priority;
         }
         return ordinal_num < other.ordinal_num;
     }
@@ -26,6 +26,7 @@ class PriorityQueue {
     Heap<PriorityNode<T>> _heap;
 public:
     PriorityQueue();
+    PriorityQueue(const Heap<PriorityNode<T>> heap);
     PriorityQueue(const PriorityNode<T>& other);
     ~PriorityQueue();
     void insert(T value, int priority);
@@ -37,6 +38,9 @@ public:
 
 template <typename T>
 PriorityQueue<T>::PriorityQueue() : _heap(), _ordinal_num(0) {}
+
+template <typename T>
+PriorityQueue<T>::PriorityQueue(const Heap<PriorityNode<T>> heap) : _heap(heap), _ordinal_num(0) {}
 
 template <typename T>
 PriorityQueue<T>::~PriorityQueue() {}

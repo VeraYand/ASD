@@ -18,6 +18,7 @@ class Heap {
 
 public:
 	Heap();
+	Heap(const TVector<T> data);
 	Heap(const Heap<T>& other);
 	~Heap();
 	bool is_empty() const;
@@ -29,6 +30,9 @@ public:
 template <typename T>
 Heap<T>::Heap() : _data() {
 }
+
+template <typename T>
+Heap<T>::Heap(const TVector<T> data) : _data(data) {}
 
 template <typename T>
 Heap<T>::Heap(const Heap& other) : _data(other._data) {

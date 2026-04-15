@@ -27,7 +27,7 @@ int main() {
 
 #endif
 
-#define BSTREE
+//#define BSTREE
 #ifdef BSTREE
 #include "../lib_bstree/bstree.h"
 
@@ -42,6 +42,31 @@ int main() {
 }
 
 #endif
+
+#define PRIORITYQUEUE
+#ifdef PRIORITYQUEUE
+#include "../lib_priority_queue/priority_queue.h"
+#include <clocale>
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    int k = 5;
+    std::pair<std::string, int> data[] = { {"Василий", 2}, {"Леонид Васильевич", 1}, {"Петька", 4}, {"Иван Иванович", 1},
+    {"Вася", 3}, {"Василиса", 2}, };
+    TVector < std::pair<std::string, int>> vector(6, data);
+    PriorityQueue<std::string> queue;
+    for (int i = 0; i < vector.size(); i++) {
+        queue.insert(vector[i].first, vector[i].second);
+    }
+
+    for (int i = 0; i < 5; i++) {
+        std::cout << queue.top().data << "\n";
+        queue.erase();
+    }
+}
+
+#endif // PRIORITYQUEUE
+
 
 ////#define EASY_EXAMPLE
 //#define ALGORITHMS
