@@ -90,15 +90,6 @@ Monom& Monom::operator/=(double val) {
     return *this;
 }
 
-Monom& Monom::operator+=(double val) {
-    _coeff += val;
-    return *this;
-}
-
-Monom& Monom::operator-=(double val) {
-    _coeff -= val;
-    return *this;
-}
 
 double Monom::calculate(const double values[VARS_COUNT]){
     double res = _coeff;

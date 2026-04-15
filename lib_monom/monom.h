@@ -27,8 +27,6 @@ public:
     Monom operator-(const Monom& other) const;
     Monom operator/(const Monom& other) const;
     Monom& operator/=(double val);
-    Monom& operator+=(double val);
-    Monom& operator-=(double val);
 
     double calculate(const double values[VARS_COUNT]);
 

@@ -200,24 +200,6 @@ TEST(TestMonom, div_by_zero_val) {
     EXPECT_ANY_THROW(m /= 0.0);
 }
 
-TEST(TestMonom, add_value) {
-    int powers[] = { 2, 1, 3 };
-    Monom m(5.5, powers);
-
-    m += 2.5;
-
-    EXPECT_DOUBLE_EQ(m.getCoeff(), 8.0);
-}
-
-TEST(TestMonom, sub_value) {
-    int powers[] = { 2, 1, 3 };
-    Monom m(5.5, powers);
-
-    m -= 1.5;
-
-    EXPECT_DOUBLE_EQ(m.getCoeff(), 4.0);
-}
-
 TEST(TestMonom, parse) {
     Monom m = Monom::parse("5.5x^2y^1z^3");
     const int* powers = m.getPowers();

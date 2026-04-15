@@ -22,78 +22,15 @@ Polynom& Polynom::operator=(const Polynom& other) {
     return *this;
 }
 
-Polynom& Polynom::operator+=(const Polynom& other) {
-    List<Monom> res;
-    auto it1 = _items.begin();
-    auto it2 = other._items.begin();
-    auto end1 = _items.end();
-    auto end2 = other._items.end();
-
-    while (it1 != end1 || it2 != end2) {
-        if (it1 != end1 && (it2 == end2 || (*it1) > (*it2))) {
-            res.push_back(*it1);
-            ++it1;
-        }
-        else if (it2 != end2 && (it1 == end1 || (*it2) > (*it1))) {
-            res.push_back(*it2);
-            ++it2;
-        }
-        else {
-            Monom sum = (*it1) + (*it2);
-            if (sum.getCoeff() != 0) {
-                res.push_back(sum);
-            }
-            ++it1;
-            ++it2;
-        }
-    }
-
-    while (!_items.is_empty()) {
-        _items.pop_front();
-    }
-
-    for (auto it = res.begin(); it != res.end(); ++it) {
-        _items.push_back(*it);
-    }
-
+Polynom& Polynom::operator+=(const Monom& m) {
+    add_monom(m);
     return *this;
 }
 
-Polynom& Polynom::operator-=(const Polynom& other) {
-    List<Monom> res;
-    auto it1 = _items.begin();
-    auto it2 = other._items.begin();
-    auto end1 = _items.end();
-    auto end2 = other._items.end();
-
-    while (it1 != end1 || it2 != end2) {
-        if (it1 != end1 && (it2 == end2 || (*it1) > (*it2))) {
-            res.push_back(*it1);
-            ++it1;
-        }
-        else if (it2 != end2 && (it1 == end1 || (*it2) > (*it1))) {
-            Monom neg = *it2;
-            Monom neg_monom(-neg.getCoeff(), neg.getPowers());
-            res.push_back(neg_monom);
-            ++it2;
-        }
-        else {
-            Monom diff = (*it1) - (*it2);
-            if (diff.getCoeff() != 0) {
-                res.push_back(diff);
-            }
-            ++it1;
-            ++it2;
-        }
-    }
-    while (!_items.is_empty()) {
-        _items.pop_front();
-    }
-
-    for (auto it = res.begin(); it != res.end(); ++it) {
-        _items.push_back(*it);
-    }
-
+Polynom& Polynom::operator-=(const Monom& m) {
+    Monom negative_m = m;
+    negative_m *= -1.0;
+    add_monom(negative_m);
     return *this;
 }
 
@@ -118,6 +55,9 @@ Polynom& Polynom::operator*=(const Monom& m) {
     for (auto it = res.begin(); it != res.end(); ++it) {
         _items.push_back(*it);
     }
+    if (!is_sorted()) {
+        sort();
+    }
 
     return *this;
 }
@@ -140,38 +80,43 @@ Polynom& Polynom::operator/=(const Monom& m) {
     for (auto it = res.begin(); it != res.end(); ++it) {
         _items.push_back(*it);
     }
+    if (!is_sorted()) {
+        sort();
+    }
 
     return *this;
 }
 
+
 Polynom Polynom::operator+(const Polynom& other) const {
-    return Polynom(*this) += other;
+    Polynom result(*this);  
+    for (auto it = other._items.begin(); it != other._items.end(); ++it) {
+        result += *it;
+    }
+    return result;
 }
 
 Polynom Polynom::operator-(const Polynom& other) const {
-    return Polynom(*this) -= other;
+    Polynom result(*this);  
+    for (auto it = other._items.begin(); it != other._items.end(); ++it) {
+        result -= *it;  
+    }
+    return result;
 }
 
-Polynom Polynom::operator*(const Monom& m) const {
-    return Polynom(*this) *= m;
+Polynom Polynom::operator*(const Polynom& other) const {
+    Polynom result;
+    for (auto it1 = _items.begin(); it1 != _items.end(); ++it1) {
+        for (auto it2 = other._items.begin(); it2 != other._items.end(); ++it2) {
+            Monom product = (*it1) * (*it2);
+            result += product; 
+        }
+    }
+
+    return result;
 }
 
-Polynom Polynom::operator/(const Monom& m) const {
-    return Polynom(*this) /= m;
-}
 
-Polynom operator+(const Monom& m, const Polynom& p) {
-    return Polynom(m) + p;
-}
-
-Polynom operator*(const Monom& m, const Polynom& p) {
-    Polynom result(p);
-    return result *= m;
-}
-
-Polynom operator-(const Monom& m, const Polynom& p) {
-    return Polynom(m) - p;
-}
 
 std::ostream& operator<<(std::ostream& os, const Polynom& p) {
     os << p.to_string();
@@ -304,42 +249,47 @@ void Polynom::remove_zero_monoms() {
     }
 }
 
-void Polynom::insert_monom(const Monom& monom) {
-    if (monom.getCoeff() == 0) return;
+void Polynom::add_monom(const Monom& m) {
+    if (std::abs(m.getCoeff()) < 1e-10) return; 
 
-    List<Monom> res;
+    if (_items.is_empty()) {
+        _items.push_back(m);
+        return;
+    }
+
+    size_t index = 0;
     bool inserted = false;
 
     for (auto it = _items.begin(); it != _items.end(); ++it) {
-        if (!inserted && *it == monom) {
-            Monom sum = *it + monom;
-            if (sum.getCoeff() != 0) {
-                res.push_back(sum);
+        if (*it == m) {
+            Monom sum = *it + m;
+            if (std::abs(sum.getCoeff()) < 1e-10) {
+                _items.erase(index); 
+            }
+            else {
+                *it = sum;
             }
             inserted = true;
+            break;
         }
-        else if (!inserted && *it > monom) {
-            res.push_back(monom);
-            res.push_back(*it);
+
+        if (*it < m) {
+            _items.insert(index, m);
             inserted = true;
+            break;
         }
-        else {
-            res.push_back(*it);
-        }
+
+        index++;
     }
 
     if (!inserted) {
-        res.push_back(monom);
+        _items.push_back(m);
     }
-
-    while (!_items.is_empty()) {
-        _items.pop_front();
-    }
-
-    for (auto it = res.begin(); it != res.end(); ++it) {
-        _items.push_back(*it);
-    }
+    /*if (!is_sorted()) {
+        sort();
+    }*/
 }
+
 
 double Polynom::calculate(const double* values) const {
     double result = 0.0;

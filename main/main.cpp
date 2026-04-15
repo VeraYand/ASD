@@ -1,15 +1,47 @@
 // Copyright 2024 Marina Usova
-#include "../lib_algoritms/algoritms.cpp"
+//#include "../lib_algoritms/algoritms.cpp"
+//
+//int X = 0, Y = 25, N = 5, M = 5;
+//Matrix<int> labirint;
+//
+//int main() {
+//    get_data(X, Y, N, M);
+//    labirint = generate(X, Y, N, M); 
+//    print(labirint, N, M);
+//    return 0;
+//}
 
-int X = 0, Y = 25, N = 5, M = 5;
-Matrix<int> labirint;
+//#define SKIPLIST
+#ifdef SKIPLIST
+#include "../lib_skip_list/skip_list.h"
 
 int main() {
-    get_data(X, Y, N, M);
-    labirint = generate(X, Y, N, M); 
-    print(labirint, N, M);
-    return 0;
+    SkipList<int, std::string> sl;
+    sl.insert(10, "ten");
+    sl.insert(20, "twenty");
+    sl.insert(30, "thirty");
+    sl.print();
+	return 0;
 }
+
+
+#endif
+
+#define BSTREE
+#ifdef BSTREE
+#include "../lib_bstree/bstree.h"
+
+int main() {
+    BSTree<int, std::string> tree;
+    tree.insert(0, "null");
+    tree.insert(3, "three");
+    tree.insert(1, "one");
+    tree.insert(2, "two");
+    tree.insert(9, "nine");
+    tree.print();
+}
+
+#endif
 
 ////#define EASY_EXAMPLE
 //#define ALGORITHMS

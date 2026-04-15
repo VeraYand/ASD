@@ -14,30 +14,24 @@ public:
     ~Polynom() = default;
 
     Polynom& operator=(const Polynom& other);
-    bool operator==(const Polynom& other);
-    bool operator!=(const Polynom& other);
 
-    Polynom& operator+=(const Polynom& other);
+    Polynom& operator+=(const Monom& m);
     Polynom& operator*=(const Monom& m);
-    Polynom& operator-=(const Polynom& other);
+    Polynom& operator-=(const Monom& m);
     Polynom& operator/=(const Monom& m);
 
     Polynom operator+(const Polynom& other) const;
-    Polynom operator*(const Monom& m) const;
+    Polynom operator*(const Polynom& other) const;
     Polynom operator-(const Polynom& other) const;
-    Polynom operator/(const Monom& m) const;
 
-    friend Polynom operator+(const Monom& m, const Polynom& p);
-    friend Polynom operator*(const Monom& m, const Polynom& p);
-    friend Polynom operator-(const Monom& m, const Polynom& p);
 
     friend std::ostream& operator<<(std::ostream& os, const Polynom& p);
     friend std::istream& operator>>(std::istream& is, Polynom& p);
 
+    void add_monom(const Monom& m);
     void sort();
     bool is_sorted() const;
     void remove_zero_monoms();
-    void insert_monom(const Monom& monom);
     std::string to_string() const;
 
     double calculate(const double* values) const; 
