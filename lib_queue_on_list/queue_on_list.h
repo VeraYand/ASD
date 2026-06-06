@@ -41,7 +41,7 @@ bool Queue<T>::is_full() const {
 
 template<class T> 
 void Queue<T>::push(T val) {
-	if (is_full()) throw std::logic_error("Error! Queue is full!");
+	//if (is_full()) throw std::logic_error("Error! Queue is full!");
 	_data.push_back(val);
 }
 

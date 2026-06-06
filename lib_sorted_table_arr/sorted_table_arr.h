@@ -17,7 +17,7 @@ public:
 
     void erase(const TKey& key) override;
 
-    TVal find(const TKey& key) const override;
+    const TVal& found(const TKey& key) const override;
 
     bool is_empty() const noexcept override;
 
@@ -71,7 +71,7 @@ void SortedTableOnArr<TKey, TVal>::erase(const TKey& key) {
 }
 
 template <class TKey, class TVal>
-TVal SortedTableOnArr<TKey, TVal>::find(const TKey& key) const {
+const TVal& SortedTableOnArr<TKey, TVal>::found(const TKey& key) const {
     int pos = lower_bound_index(key);
     if (pos < _rows.size() && _rows[pos].first == key) {
         return _rows[pos].second;

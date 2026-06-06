@@ -86,14 +86,14 @@ public:
         }
     };
 
-    
+
     Iterator begin() { return Iterator(_head); }
     Iterator end() { return Iterator(nullptr); }
 
     Iterator begin() const { return Iterator(_head); }
     Iterator end() const { return Iterator(nullptr); }
 
-    
+
 };
 
 
@@ -111,9 +111,9 @@ List<T>::List(const List<T>& other) : _head(nullptr), _tail(nullptr), _count(0) 
 
 template <class T>
 List<T>::~List() {
-    /*while (!is_empty()) {
-        pop_front();
-    }*/
+    /* while (!is_empty()) {
+         pop_front();
+     }*/
     if (is_empty()) {
         return;
     }
@@ -134,13 +134,13 @@ List<T>::~List() {
 }
 
 template <class T>
-Node<T>* List<T>::head() const{ return _head; }
+Node<T>* List<T>::head() const { return _head; }
 
 template <class T>
-Node<T>* List<T>::tail() const{ return _tail; }
+Node<T>* List<T>::tail() const { return _tail; }
 
 template <class T>
-bool List<T>::is_empty() const{
+bool List<T>::is_empty() const {
     return _head == nullptr;
 }
 
@@ -162,7 +162,7 @@ template <class T>
 void List<T>::push_back(const T& val) noexcept {
     Node <T>* node = new Node<T>(val);
     if (is_empty()) {
-        _count ++;
+        _count++;
         _head = node;
         _tail = node;
         return;
@@ -295,8 +295,6 @@ void List<T>::erase(size_t pos) {
 }
 
 template <class T>
-size_t List<T>::count() const{
+size_t List<T>::count() const {
     return _count;
 }
-
-

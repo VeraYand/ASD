@@ -26,10 +26,10 @@ public:
 		clear(_root);
 	}
 
-	TValue* find(const TKey& key) const noexcept;
+	TValue* found(const TKey& key) const;
 	bool is_empty() const noexcept { return _root == nullptr; }
 	void insert(const TKey& key, const TValue& value);
-	void print() const noexcept;
+	void print(std::ostream& out) const noexcept;
 	void erase(const TKey& key);
 
 private:
@@ -54,7 +54,7 @@ void BSTree<TKey, TValue>::clear(Node<TKey, TValue>* node) {
 }
 
 template <typename TKey, typename TValue>
-TValue* BSTree<TKey, TValue>::find(const TKey& key) const noexcept {
+TValue* BSTree<TKey, TValue>::found(const TKey& key) const {
 	Node<TKey, TValue>* cur = _root;
 	while (cur) {
 		if (key < cur->data.first) cur = cur->left;
@@ -126,8 +126,8 @@ void BSTree<TKey, TValue>::print_rec(Node<TKey, TValue>* node) const {
 }
 
 template <typename TKey, typename TValue>
-void BSTree<TKey, TValue>::print() const noexcept {
+void BSTree<TKey, TValue>::print(std::ostream& out) const noexcept {
 	print_rec(_root);
-	std::cout << std::endl;
+	out << std::endl;
 }
 

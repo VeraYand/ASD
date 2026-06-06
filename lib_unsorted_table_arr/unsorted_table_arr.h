@@ -17,7 +17,7 @@ public:
 
     void erase(const TKey& key) override;
 
-    TVal find(const TKey& key) const override;
+    const TVal& found(const TKey& key) const override;
 
     bool is_empty() const noexcept override;
 
@@ -59,7 +59,7 @@ void UnsortedTableOnArr<TKey, TVal>::erase(const TKey& key) {
 }
 
 template <class TKey, class TVal>
-TVal UnsortedTableOnArr<TKey, TVal>::find(const TKey& key) const{
+const TVal& UnsortedTableOnArr<TKey, TVal>::found(const TKey& key) const{
     int index = find_index(key);
     if (index != -1) {
         return _rows[index].second;

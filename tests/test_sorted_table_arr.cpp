@@ -13,7 +13,7 @@ TEST(TestSortedTableOnArr, insert) {
 	table.insert(1, 11);
 	table.insert(3, 33);
 	table.insert(0, 00);
-	EXPECT_EQ(table.find(1), 11);
+	EXPECT_EQ(table.found(1), 11);
 }
 
 TEST(TestSortedTableOnArr, erase) {
@@ -32,7 +32,7 @@ TEST(TestSortedTableOnArr, erase1) {
 	table.insert(1, 22);
 	table.erase(1);
 
-	EXPECT_ANY_THROW(table.find(1));
+	EXPECT_ANY_THROW(table.found(1));
 }
 
 TEST(TestSortedTableOnArr, erase_non_existent) {

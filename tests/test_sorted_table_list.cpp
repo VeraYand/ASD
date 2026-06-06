@@ -13,7 +13,7 @@ TEST(TestSortedTableOnList, insert) {
 	table.insert(1, 11);
 	table.insert(3, 33);
 	table.insert(0, 00);
-	EXPECT_EQ(table.find(1), 11);
+	EXPECT_EQ(table.found(1), 11);
 }
 
 //TEST(TestSortedTableOnList, erase) {

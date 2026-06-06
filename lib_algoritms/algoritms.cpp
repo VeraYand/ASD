@@ -6,6 +6,8 @@
 //#define HAREANDTURTLE
 //#define ISLOOPEDPOS
 #define LABIRINT
+#define  DIJKSTRA
+#define LABIRINTPATH
 
 #ifdef BRECKETS
 #include<string>
@@ -197,6 +199,55 @@ void print(Matrix<int>& labirint, int N, int M) {
 	}
 }
 
+void print(Matrix<int>& labirint, int N, int M, const TVector<int>& path) {
+	int size = N * M;
+	bool* path_rooms = new bool[size]();
+	for (int i = 0; i < path.size(); i++) {
+		if (path[i] < size) {
+			path_rooms[path[i]] = true;
+		}
+	}
+
+	for (int i = 0; i < 2 * N + 1; ++i) {
+		if (i % 2 == 0) {
+			for (int j = 0; j < M; ++j) {
+				std::cout << "+";
+				if (labirint[i][j] == 1) {
+					std::cout << "---";
+				}
+				else {
+					std::cout << "   ";
+				}
+			}
+			std::cout << "+\n";
+		}
+		else {
+			int room_row = i / 2;
+			for (int j = 0; j < M + 1; ++j) {
+				if (labirint[i][j] == 1) {
+					std::cout << "|";
+				}
+				else {
+					std::cout << " ";
+				}
+
+				if (j < M) {
+					int room_index = room_row * M + j;
+					if (path_rooms[room_index]) {
+						std::cout << " * ";
+					}
+					else {
+						std::cout << "   ";
+					}
+				}
+			}
+			std::cout << "\n";
+		}
+	}
+
+	delete[] path_rooms;
+}
+
 Matrix<int> generate(int X, int Y, int N, int M) {
 	int rows = 2 * N + 1;
 	int cols = M + 1;
@@ -265,3 +316,121 @@ Matrix<int> generate(int X, int Y, int N, int M) {
 }
 
 #endif
+
+#ifdef DIJKSTRA
+#include "../lib_priority_queue/priority_queue.h"
+#include "../lib_graf/graf.h"
+
+struct PathInfo {
+	int vertex;
+	int distance;
+	int parent;
+
+	PathInfo() : vertex(-1), distance(INT_MAX), parent(-1) {}
+	PathInfo(int v, int d, int p) : vertex(v), distance(d), parent(p) {}
+};
+
+TVector<int> dijkstras(Graf<int>& graf, int v1, int v2) {
+	int size = graf.get_adjacency_vec().size(); 
+
+	TVector<bool> visited(size);
+	TVector<int> distance(size);
+	TVector<int> parent(size);  
+	TVector<int> result;  
+
+	PriorityQueue<int> queue;
+
+	for (int i = 0; i < size; i++) {
+		distance[i] = INT_MAX;
+		visited[i] = false;
+		parent[i] = -1;
+	}
+
+	distance[v1] = 0;
+	queue.insert(v1, 0);
+
+	while (!queue.is_empty()) {
+		int u = queue.top().data;
+		queue.erase();
+
+		if (visited[u]) continue;  
+		visited[u] = true;
+
+		if (u == v2) break;  
+
+		for (const auto& adj : graf.get_adjacency_vec()[u]) {
+			int v = adj.vertex.value;  
+			int weight = adj.weight;    
+
+			if (!visited[v] && distance[u] != INT_MAX) {
+				int new_distance = distance[u] + weight;
+
+				if (new_distance < distance[v]) {
+					distance[v] = new_distance;
+					parent[v] = u;  
+					queue.insert(v, distance[v]);
+				}
+			}
+		}
+	}
+
+	if (distance[v2] == INT_MAX) {
+		return result;
+	}
+
+	int current = v2;
+	TVector<int> reverse_path;
+
+	while (current != -1) {
+		reverse_path.push_back(current);
+		current = parent[current];
+	}
+
+	for (int i = reverse_path.size() - 1; i >= 0; i--) {
+		result.push_back(reverse_path[i]);
+	}
+
+	return result;
+}
+
+
+#endif // DIJKSTRA
+
+
+#ifdef LABIRINTPATH
+
+void find_way_in_labirint(int X, int Y, int N, int M) {
+	Matrix<int> labirint;
+	labirint = generate(X, Y, N, M);
+
+	Graf<int> graf(false, false);  
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			int current_vertex = i * M + j;
+
+			if (j < M - 1) {
+				if (labirint[2 * i + 1][j + 1] == 0) {
+					int right_vertex = i * M + (j + 1);
+					graf.add_edge(Vertex<int>(current_vertex),
+						Vertex<int>(right_vertex));
+				}
+			}
+
+			if (i < N - 1) {
+				if (labirint[2 * i + 2][j] == 0) {
+					int bottom_vertex = (i + 1) * M + j;
+					graf.add_edge(Vertex<int>(current_vertex),
+						Vertex<int>(bottom_vertex));
+				}
+			}
+		}
+	}
+
+	TVector<int> path = dijkstras(graf, X, Y);
+
+	print(labirint, N, M, path);
+}
+
+
+#endif // LABIRINTPATH

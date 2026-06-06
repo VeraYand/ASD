@@ -11,7 +11,7 @@ TEST(TestUnsortedTable, default_cons) {
 TEST(TestUnsortedTable, insert) {
 	UnsortedTableOnArr<int, int> table;
 	table.insert(0, 11);
-	EXPECT_EQ(table.find(0), 11);
+	EXPECT_EQ(table.found(0), 11);
 }
 
 TEST(TestUnsortedTable, erase) {
@@ -30,7 +30,7 @@ TEST(TestUnsortedTable, erase1) {
 	table.insert(2, 33);
 	table.erase(1);
 
-	EXPECT_ANY_THROW(table.find(1));
+	EXPECT_ANY_THROW(table.found(1));
 }
 
 TEST(TestUnsortedTable, erase_non_existent) {

@@ -1,7 +1,7 @@
 // Copyright 2024 Marina Usova
 //#include "../lib_algoritms/algoritms.cpp"
 //
-//int X = 0, Y = 25, N = 5, M = 5;
+//int X = 0, Y = 24, N = 5, M = 5;
 //Matrix<int> labirint;
 //
 //int main() {
@@ -10,6 +10,34 @@
 //    print(labirint, N, M);
 //    return 0;
 //}
+
+
+//#include "../lib_algoritms/algoritms.cpp"
+//
+//int main() {
+//    int X = 0, Y = 24, N = 5, M = 5;
+//    find_way_in_labirint(X, Y, N, M);
+//    return 0;
+//}
+
+#define TREE
+#ifdef TREE
+#include "../lib_tree/tree.h"
+
+int main() {
+    Tree<int, std::string> tree;
+    tree.insert(1, "one");
+    tree.insert(2, "two");
+    tree.insert(3, "three");
+    tree.insert(4, "four");
+    tree.insert(5, "five");
+    tree.insert(6, "six");
+    tree.insert(7, "seven");
+    tree.print_beatiful();
+    return 0;
+}
+#endif
+
 
 //#define SKIPLIST
 #ifdef SKIPLIST
@@ -43,7 +71,7 @@ int main() {
 
 #endif
 
-#define PRIORITYQUEUE
+//#define PRIORITYQUEUE
 #ifdef PRIORITYQUEUE
 #include "../lib_priority_queue/priority_queue.h"
 #include <clocale>
@@ -59,13 +87,55 @@ int main() {
         queue.insert(vector[i].first, vector[i].second);
     }
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < k; i++) {
         std::cout << queue.top().data << "\n";
         queue.erase();
     }
+    return 0;
 }
 
 #endif // PRIORITYQUEUE
+
+//#define MERGEDICTIONARIES
+
+#ifdef MERGEDICTIONARIES
+#include "../lib_hash_table_oa/hash_table_oa.h"
+
+template <class TValue>
+HashTableOA<TValue> merge_dictionaries(
+    const TVector<std::pair<std::string, TValue>>& dict1,
+    const TVector<std::pair<std::string, TValue>>& dict2) {
+
+    HashTableOA<TValue> result;
+
+    for (int i = 0; i < dict1.size(); i++) {
+        result.insert(dict1[i].first, dict1[i].second);
+    }
+
+    for (size_t i = 0; i < dict2.size(); i++) {
+        try {
+            result.insert(dict2[i].first, dict2[i].second);
+        }
+        catch (...) {
+        }
+    }
+    result.print(std::cout);
+    return result;
+
+}
+
+int main() {
+    std::pair<std::string, int> data1[] = { {"Table", 73738}, {"OOP", 9238}, {"Hash-function", 38}, {"Vector", 3938}};
+    std::pair<std::string, int> data2[] = { {"Interface", 73898}, {"Vector", 11387}, {"Hash-function", 33928}, {"List", 9284}};
+
+    TVector<std::pair<std::string, int>> dict1(4, data1);
+    TVector<std::pair<std::string, int>> dict2(4, data2);
+    HashTableOA<int> result = merge_dictionaries(dict1, dict2);
+
+    return 0;
+}
+
+#endif
 
 
 ////#define EASY_EXAMPLE

@@ -73,6 +73,8 @@ public:
 	template <class T>
 	friend TVector<size_t> search(const TVector<T>& vec, const T& value);
 
+
+
 private:
 	inline bool is_full() const noexcept;
 	void reallocate();
@@ -482,12 +484,18 @@ TVector<T>& TVector<T>::operator=(const TVector& other) {
 
 template <class T>
 inline T& TVector<T>::operator[](size_t index) {
-	return at(index);
+	if (index >= _capacity) {
+		throw std::out_of_range("Index out of range");
+	}
+	return _data[index];
 }
 
 template <class T>
 inline const T& TVector<T>::operator[](size_t index) const {
-	return at(index);
+	if (index >= _capacity) {
+		throw std::out_of_range("Index out of range");
+	}
+	return _data[index];
 }
 
 template <class T>

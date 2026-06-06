@@ -15,7 +15,7 @@ public:
     void insert(const TKey& key, const TVal& value) override;
 
     void erase(const TKey& key) override;
-    TVal find(const TKey& key) const override;
+    const TVal& found(const TKey& key) const override;
 
     bool is_empty() const noexcept override;
 
@@ -55,7 +55,7 @@ void SortedTableOnList<TKey, TVal>::erase(const TKey& key) {
 }
 
 template <class TKey, class TVal>
-TVal SortedTableOnList<TKey, TVal>::find(const TKey& key) const {
+const TVal& SortedTableOnList<TKey, TVal>::found(const TKey& key) const {
     for (auto it = _rows.begin(); it != _rows.end(); ++it) {
         if ((*it).first == key) {
             return (*it).second;
